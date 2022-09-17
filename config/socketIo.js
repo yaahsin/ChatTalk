@@ -11,7 +11,7 @@ module.exports = io => {
       socket.join(user.room)
 
       // welcome current user
-      socket.emit('message', formatMessage(botName, 'welcome to chatBot'))
+      socket.emit('message', formatMessage(botName, 'Welcome to ChatTalk'))
 
       // broadcast when a user connects
       socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`))
