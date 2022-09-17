@@ -2,10 +2,10 @@
 
 Node.js + Express.js
 
-<附上畫面截圖>
+![left: login; right chatroom](https://raw.githubusercontent.com/yaahsin/ChatTalk/main/views/images/ChatTalk.png)
 
-**Reference**
-[Traversy Media](https://www.youtube.com/watch?v=jD7FnbI76Hg)
+## Reference
+👉[Traversy Media](https://www.youtube.com/watch?v=jD7FnbI76Hg)
 
 ## Features
 >
@@ -17,7 +17,7 @@ Node.js + Express.js
 1. Clone the project to local.
 ```shell
 // HTTPS
-**git clone https://github.com/yaahsin/ChatTalk.git*
+git clone https://github.com/yaahsin/ChatTalk.git
 ```
 2. Move to folder
 `cd ChatTalk`
@@ -28,7 +28,7 @@ Node.js + Express.js
 6. Visit  http://localhost:3000 
 
 
-**Built with 開發環境**
+**Built with**
 
 - Node.js v14.16.0
 - express v4.16.4
