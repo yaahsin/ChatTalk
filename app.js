@@ -7,6 +7,7 @@ const { Server } = require('socket.io')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override') // future plan
 const io = new Server(server)
+const formatMessage = require('./utils/messages')
 
 const PORT = 3000 || process.env.PORT
 
@@ -17,23 +18,25 @@ app.use(express.static(path.join(__dirname,'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method')) // future plan
 
+const botName = 'chatBot'
+
 // run when client connects
 io.on('connection', (socket) => {
 
   // welcome current user
-  socket.emit('message','welcome to chatBot')
+  socket.emit('message', formatMessage(botName, 'welcome to chatBot'))
   
   // broadcast when a user connects
-  socket.broadcast.emit('message', 'A user has joined the chat')
+  socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'))
 
   // runs when client disconnects
   socket.on('disconnect', ()=>{
-    io.emit('message', 'A user has left chat')
+    io.emit(formatMessage(botName, 'message', 'A user has left chat'))
   })
 
   // listen for chatMessage
   socket.on('chatMessage', msg =>{
-    io.emit('message', msg)
+    io.emit('message', formatMessage('USER', msg))
   } ) 
 
 })
