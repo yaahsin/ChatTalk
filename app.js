@@ -7,8 +7,6 @@ const { Server } = require('socket.io')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override') // future plan
 const io = new Server(server)
-const formatMessage = require('./utils/messages')
-const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users')
 
 const PORT = 3000 || process.env.PORT
 
@@ -19,58 +17,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method')) // future plan
 
-const botName = 'chatBot'
-
-// run when client connects
-io.on('connection', (socket) => {
-  socket.on('joinRoom', ({ username, room }) => {
-    const user = userJoin(socket.id, username, room)
-
-    socket.join(user.room)
-
-    // welcome current user
-    socket.emit('message', formatMessage(botName, 'welcome to chatBot'))
-
-    // broadcast when a user connects
-    socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`))
-
-    // send user and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    })
-  })
-
-  // listen for chatMessage
-  socket.on('chatMessage', msg => {
-    const user = getCurrentUser(socket.id)
-
-    io.to(user.room).emit('message', formatMessage(user.username, msg))
-  })
-
-  // runs when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id)
-
-    if (user) {
-      io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left chat`))
-
-      // send user and room info
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room)
-      })
-    }
-  })
-
-})
-
 app.get('/', (req, res) => {
   res.render('login')
 })
 app.get('/chat', (req, res) => {
   res.render('index')
 })
+
+require('./config/socketIo')(io)
 
 server.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`)
