@@ -17,7 +17,7 @@ Node.js + Express.js
 1. Clone the project to local.
 ```shell
 // HTTPS
-**git clone https://github.com/AlvinLee66/twitter-fullstack-2020.git*
+**git clone https://github.com/yaahsin/ChatTalk.git*
 ```
 2. Move to folder
 `cd ChatTalk`
