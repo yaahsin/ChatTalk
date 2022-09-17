@@ -34,6 +34,11 @@ io.on('connection', (socket) => {
     // broadcast when a user connects
     socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`))
 
+    // send user and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    })
   })
 
   // listen for chatMessage
@@ -49,6 +54,12 @@ io.on('connection', (socket) => {
 
     if (user) {
       io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left chat`))
+
+      // send user and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      })
     }
   })
 
