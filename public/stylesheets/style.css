@@ -17,9 +17,6 @@ body {
   font-size: 16px;
   background: url(https://pixabay.com/get/g586a4f70503bbc4b1f5e12898f1b91a3a1bf6265f788da2a2f6d3f10349cb2d383748f726e6ec1ad2e743a89653d5c54fa74ea307dbd5636eaf0bb89258d8a8be6fd2814077999a67dcff4fdb8d955cb_1920.jpg);
   margin: 20px;
-  display: flex;
-  align-items: center;
-  height: 600px;
 }
 
 
@@ -45,7 +42,7 @@ a {
 .chat-container {
   max-width: 700px;
   background: #fff;
-  margin: auto;
+  margin: 50px auto;
   overflow: hidden;
 }
 
@@ -132,7 +129,7 @@ a {
 /* Join Page */
 .join-container {
   max-width: 500px;
-  margin: auto;
+  margin: 50px auto;
   color: #fff;
 }
 
