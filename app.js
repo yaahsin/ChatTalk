@@ -8,7 +8,7 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override') // future plan
 const io = new Server(server)
 const formatMessage = require('./utils/messages')
-const { userJoin, getCurrentUser } = require('./utils/users')
+const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users')
 
 const PORT = 3000 || process.env.PORT
 
@@ -38,12 +38,18 @@ io.on('connection', (socket) => {
 
   // listen for chatMessage
   socket.on('chatMessage', msg => {
-    io.emit('message', formatMessage('USER', msg))
+    const user = getCurrentUser(socket.id)
+
+    io.to(user.room).emit('message', formatMessage(user.username, msg))
   })
 
   // runs when client disconnects
   socket.on('disconnect', () => {
-    io.emit(formatMessage(botName, 'message', `A user has left chat`))
+    const user = userLeave(socket.id)
+
+    if (user) {
+      io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left chat`))
+    }
   })
 
 })
