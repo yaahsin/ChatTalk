@@ -19,7 +19,23 @@ app.use(methodOverride('_method')) // future plan
 
 // run when client connects
 io.on('connection', (socket) => {
-  console.log('New WS Connection...')
+
+  // welcome current user
+  socket.emit('message','welcome to chatBot')
+  
+  // broadcast when a user connects
+  socket.broadcast.emit('message', 'A user has joined the chat')
+
+  // runs when client disconnects
+  socket.on('disconnect', ()=>{
+    io.emit('message', 'A user has left chat')
+  })
+
+  // listen for chatMessage
+  socket.on('chatMessage', msg =>{
+    io.emit('message', msg)
+  } ) 
+
 })
 
 app.get('/', (req, res) => {
